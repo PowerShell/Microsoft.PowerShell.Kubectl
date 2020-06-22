@@ -7,7 +7,7 @@ They should help you get started.
 
 [Kubernetes on Docker](doc/Kubernetes.on.Docker.md) is a short description on how to set up kubernetes so you can get started more quickly. I built these instructions from a number of different sources I found on the net.
 
-There's not much to setup in the module itself, tou can install the module from the [PowerShell Gallery](https://powershellgallery.com/).
+There's not much to setup in the module itself, you can install the module from the [PowerShell Gallery](https://powershellgallery.com/).
 
 You're welcome to provide feedback and suggestions and concerns.
 Just open an issue.
