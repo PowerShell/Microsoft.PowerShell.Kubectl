@@ -1,0 +1,1056 @@
+[
+  {
+    "TypeName": "componentstatuses",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "STATUS",
+        "PropertyReference": "$o.conditions.status"
+      },
+      {
+        "PropertyName": "MESSAGE",
+        "PropertyReference": "$o.conditions.message"
+      },
+      {
+        "PropertyName": "ERROR",
+        "PropertyReference": "$o.conditions.error"
+      }
+    ]
+  },
+  {
+    "TypeName": "configmaps",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "DATA",
+        "PropertyReference": "$o" 
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "endpoints",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "ENDPOINTS",
+        "PropertyReference": "$o.subsets.addresses.ip -eq $null ? '<none>' : $(foreach($ip in $o.subsets.addresses.ip) { foreach ($p in $o.subsets.ports.port) { '{0}:{1}' -f $ip, $p}})"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "events",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "LASTSEEN",
+        "PropertyReference": "$o.lastTimestamp"
+      },
+      {
+        "PropertyName": "TYPE",
+        "PropertyReference": "$o.type"
+      },
+      {
+        "PropertyName": "REASON",
+        "PropertyReference": "$o.reason"
+      },
+      {
+        "PropertyName": "OBJECT",
+        "PropertyReference": "if ( $o.involvedObject.Name ) { '{0}/{1}' -f $o.involvedObject.kind,$o.metadata.name } else { $o.involvedObject.Kind}"
+      },
+      {
+        "PropertyName": "SUBOBJECT",
+        "PropertyReference": "$o.involvedObject.fieldPath"
+      },
+      {
+        "PropertyName": "SOURCE",
+        "PropertyReference": ".{$s = $o.source; $s.host ? (($s.component,$s.host) -join ', ') : ($s.component)}"
+      },
+      {
+        "PropertyName": "MESSAGE",
+        "PropertyReference": "$o.message"
+      },
+      {
+        "PropertyName": "FIRSTSEEN",
+        "PropertyReference": "$o.firstTimestamp"
+      },
+      {
+        "PropertyName": "COUNT",
+        "PropertyReference": "$o.count"
+      }
+    ]
+  },
+  {
+    "TypeName": "limitranges",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "CREATEDAT",
+        "PropertyReference": "$o"
+      }
+    ]
+  },
+  {
+    "TypeName": "namespaces",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "STATUS",
+        "PropertyReference": "$o.status.phase"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "nodes",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "STATUS",
+        "PropertyReference": "$o.status.conditions.where({$_.type -eq 'ready' -and $_.status -eq 'True'}) ? 'Ready' : 'Not Ready'"
+      },
+      {
+        "PropertyName": "ROLES",
+        "PropertyReference": "($o.metadata.labels.psobject.properties|? name -match 'node-role').name.split('/')[1]"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimeStamp"
+      },
+      {
+        "PropertyName": "VERSION",
+        "PropertyReference": "$o.status.nodeinfo.kubeproxyversion"
+      },
+      {
+        "PropertyName": "INTERNAL-IP",
+        "PropertyReference": "$o.status.addresses.where({$_.type -eq 'internalip'}).address"
+      },
+      {
+        "PropertyName": "EXTERNAL-IP",
+        "PropertyReference": "$o.status.addresses.where({$_.type -eq 'externalip'}).address"
+      },
+      {
+        "PropertyName": "OS-IMAGE",
+        "PropertyReference": "$o.status.nodeinfo.osimage"
+      },
+      {
+        "PropertyName": "KERNEL-VERSION",
+        "PropertyReference": "$o.status.nodeinfo.kernelVersion"
+      },
+      {
+        "PropertyName": "CONTAINER-RUNTIME",
+        "PropertyReference": "$o.status.nodeinfo.containerRuntimeVersion"
+      }
+    ]
+  },
+  {
+    "TypeName": "persistentvolumeclaims",
+    "Fields": [
+      {
+      "PropertyName": "NAME",
+      "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+      "PropertyName": "STATUS",
+      "PropertyReference": "$o.status.phase"
+      },
+      {
+      "PropertyName": "VOLUME",
+      "PropertyReference": "$o.spec.volumeName"
+      },
+      {
+      "PropertyName": "CAPACITY",
+      "PropertyReference": "$o.status.capacity"
+      },
+      {
+      "PropertyName": "ACCESS MODES",
+      "PropertyReference": "$o.Status.accessmodes"
+      },
+      {
+      "PropertyName": "STORAGE CLASS",
+      "PropertyReference": "$o.notfound"
+      },
+      {
+      "PropertyName": "AGE",
+      "PropertyReference": "$o.metadata.creationTimeStamp"
+      },
+      {
+      "PropertyName": "VOLUMEMODE",
+      "PropertyReference": "$o.spec.volumeMode"
+      }
+    ]
+  },
+  {
+    "TypeName": "persistentvolumes",
+    "Fields": [
+      {
+      "PropertyName": "NAME",
+      "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+      "PropertyName": "Capacity",
+      "PropertyReference": "$o.spec.capacity"
+      },
+      {
+      "PropertyName": "AccessModes",
+      "PropertyReference": "$o.spec.accessMode"
+      },
+      {
+      "PropertyName": "RECLAIMPOLICY",
+      "PropertyReference": "$o.spec.persistentVolumeReclaimPolicy"
+      },
+      {
+      "PropertyName": "STATUS",
+      "PropertyReference": "$o.status.phase"
+      },
+      {
+      "PropertyName": "CLAIM",
+      "PropertyReference": "$o.spec.claimRef"
+      },
+      {
+      "PropertyName": "STORAGE CLASS",
+      "PropertyReference": "$o.notfound"
+      },
+      {
+      "PropertyName": "REASON",
+      "PropertyReference": "$o.Status.reason"
+      },
+      {
+      "PropertyName": "AGE",
+      "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+      "PropertyName": "VOLUMEMODE",
+      "PropertyReference": "$o.Spec.volumeMode"
+      }
+
+    ]
+  },
+  {
+    "TypeName": "podtemplates",
+    "Fields": [
+      { "PropertyName": "NAMESPACE", "PropertyReference": "$o.metadata.NAMESPACE" },
+      { "PropertyName": "NAME", "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "Containers", "PropertyReference": "$o.spec.containers.name" },
+      { "PropertyName": "Images", "PropertyReference": "$o.spec.containers.image" },
+      { "PropertyName": "POD LABELS", "PropertyReference": "$o.metadata.NAME" }
+    ]
+  },
+  {
+    "TypeName": "replicationcontrollers",
+    "Fields": [
+      { "PropertyName": "NAMESPACE", "PropertyReference": "$o.metadata.NAMESPACE" },
+      { "PropertyName": "NAME", "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "Desired", "PropertyReference": "$o.spec.replicas" },
+      { "PropertyName": "Current", "PropertyReference": "$o.status.replicas" },
+      { "PropertyName": "Ready", "PropertyReference": "$o.status.readyReplicas" },
+      { "PropertyName": "Containers", "PropertyReference": "$o.spec.template.spec.containers.name" },
+      { "PropertyName": "Images", "PropertyReference": "$o.spec.template.spec.containers.image" },
+      { "PropertyName": "AGE", "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "resourcequotas",
+    "Fields": [
+      { "PropertyName": "NAMESPACE", "PropertyReference": "$o.metadata.NAMESPACE" },
+      { "PropertyName": "NAME", "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "AGE", "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "secrets",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "TYPE",
+        "PropertyReference": "$o.type"
+      },
+      {
+        "PropertyName": "DATA",
+        "PropertyReference": "$o.data"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "serviceaccounts",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "SECRETS",
+        "PropertyReference": "@($o.secrets).Count"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "services",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "TYPE",
+        "PropertyReference": "$o.spec.type"
+      },
+      {
+        "PropertyName": "CLUSTER-IP",
+        "PropertyReference": "$o.spec.clusterIP"
+      },
+      {
+        "PropertyName": "EXTERNAL-IP",
+        "PropertyReference": "$o.spec.externalIPs"
+      },
+      {
+        "PropertyName": "PORT",
+        "PropertyReference": "$o.spec.ports.Foreach({$_.nodePort ? ('{0}:{1}/{2}' -f $_.port,$_.nodeport,$_.protocol) : ('{0}/{1}' -f $_.port,$_.protocol)})"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+        "PropertyName": "SELECTOR",
+        "PropertyReference": "$o.spec.selector.psobject.properties.foreach({'{0}={1}' -f $_.Name,$_.Value})"
+      }
+    ]
+  },
+  {
+    "TypeName": "mutatingwebhookconfigurations",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "WEBHOOKS",
+        "PropertyReference": "$o.count"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "validatingwebhookconfigurations",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "WEBHOOKS",
+        "PropertyReference": "$o.count"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "customresourcedefinitions",
+    "Fields": [
+      { "PropertyName": "NAMESPACE", "PropertyReference": "$o.metadata.NAMESPACE" },
+      { "PropertyName": "NAME", "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "AGE", "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "apiservices",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "SERVICE",
+        "PropertyReference": ".{$svc = $o.spec.service; $svc ? ('{0}/{1}' -f $svc.namespace,$svc.name) : 'Local'}"
+      },
+      {
+        "PropertyName": "AVAILABLE",
+        "PropertyReference": "try{[bool]::Parse($o.status.conditions.Where({$_.type -eq 'Available'}).status)} catch { $false }"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "controllerrevisions",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "CONTROLLER",
+        "PropertyReference": "'{0}.{1}/{2}' -f $o.metadata.ownerreferences.kind,$o.apiVersion.split('/')[0],$o.metadata.ownerreferences.name"
+      },
+      {
+        "PropertyName": "REVISION",
+        "PropertyReference": "$o.revision"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "daemonsets",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "DESIRED",
+        "PropertyReference": "$o.status.desiredNumberScheduled"
+      },
+      {
+        "PropertyName": "CURRENT",
+        "PropertyReference": "$o.status.currentNumberScheduled"
+      },
+      {
+        "PropertyName": "READY",
+        "PropertyReference": "$o.status.numberReady"
+      },
+      {
+        "PropertyName": "UP-TO-DATE",
+        "PropertyReference": "$o.status.updatedNumberScheduled"
+      },
+      {
+        "PropertyName": "AVAILABLE",
+        "PropertyReference": "$o.status.numberAvailable"
+      },
+      {
+        "PropertyName": "NODESELECTOR",
+        "PropertyReference": "$o.spec.template.spec.nodeselector.psobject.properties.foreach({'{0}={1}' -f $_.name,$_.value})"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+        "PropertyName": "CONTAINERS",
+        "PropertyReference": "$o.spec.template.spec.containers.name"
+      },
+      {
+        "PropertyName": "IMAGES",
+        "PropertyReference": "$o.spec.template.spec.container.image"
+      },
+      {
+        "PropertyName": "SELECTOR",
+        "PropertyReference": "$o.spec.selector.matchLabels.psobject.properties.foreach({'{0}={1}' -f $_.name, $_.value})"
+      }
+    ]
+  },
+  {
+    "TypeName": "deployments",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "READY",
+        "PropertyReference": "'{0}/{1}' -f $o.status.availableReplicas,$o.status.Replicas"
+      },
+      {
+        "PropertyName": "UP-TO-DATE",
+        "PropertyReference": "$o.status.UpdatedReplicas"
+      },
+      {
+        "PropertyName": "AVAILABLE",
+        "PropertyReference": "$o.status.availableReplicas"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+        "PropertyName": "CONTAINERS",
+        "PropertyReference": "$o.spec.template.spec.containers.image"
+      },
+      {
+        "PropertyName": "IMAGES",
+        "PropertyReference": "$o.spec.template.spec.containers.name"
+      },
+      {
+        "PropertyName": "SELECTOR",
+        "PropertyReference": "$o.spec.selector.matchLabels.psobject.properties.foreach({'{0}={1}' -f $_.name, $_.value})"
+      }
+    ]
+  },
+  {
+    "TypeName": "replicasets",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "DESIRED",
+        "PropertyReference": "$o.spec.replicas"
+      },
+      {
+        "PropertyName": "CURRENT",
+        "PropertyReference": "$o.spec.replicas"
+      },
+      {
+        "PropertyName": "READY",
+        "PropertyReference": "$o.spec.readyReplicas"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+        "PropertyName": "CONTAINERS",
+        "PropertyReference": "$o.spec.template.spec.containers.image"
+      },
+      {
+        "PropertyName": "IMAGES",
+        "PropertyReference": "$o.spec.template.spec.containers.name"
+      },
+      {
+        "PropertyName": "SELECTOR",
+        "PropertyReference": "$o.spec.selector.matchLabels.psobject.properties.foreach({'{0}={1}' -f $_.name, $_.value})"
+      }
+    ]
+  },
+  {
+    "TypeName": "statefulsets",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "READY",
+        "PropertyReference": "'{0}/{1}' -f $o.status.ReadyReplicas,$o.spec.Replicas"
+      },
+      {
+        "PropertyName": "CONTAINERS",
+        "PropertyReference": "$o.spec.template.spec.containers.image"
+      },
+      {
+        "PropertyName": "IMAGES",
+        "PropertyReference": "$o.spec.template.spec.containers.name"
+      }
+    ]
+  },
+  {
+    "TypeName": "horizontalpodautoscalers",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "REFERENCE",
+        "PropertyReference": "$o.spec.scaleTargetRef"
+      },
+      {
+        "PropertyName": "TARGETS",
+        "PropertyReference": "$o.spec.metrics"
+      },
+      {
+        "PropertyName": "MINPODS",
+        "PropertyReference": "$o.spec.minReplicas"
+      },
+      {
+        "PropertyName": "MAXPODS",
+        "PropertyReference": "$o.spec.maxReplicas"
+      },
+      {
+        "PropertyName": "REPLICAS",
+        "PropertyReference": "$o.spec.currentReplicas"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "cronjobs",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "SCHEDULE",
+        "PropertyReference": "$o.spec.schedule"
+      },
+      {
+        "PropertyName": "SUSPEND",
+        "PropertyReference": "$o.spec.suspend"
+      },
+      {
+        "PropertyName": "ACTIVE",
+        "PropertyReference": "$o.status.active"
+      },
+      {
+        "PropertyName": "LASTSCHEDULE",
+        "PropertyReference": "$o.Status.lastScheduleTime"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+        "PropertyName": "CONTAINERS",
+        "PropertyReference": "$o.spec.jobtemplate.spec.template.spec.containers.name"
+      },
+      {
+        "PropertyName": "IMAGES",
+        "PropertyReference": "$o.spec.jobTemplate.spec.template.spec.containers.image"
+      },
+      {
+        "PropertyName": "SELECTOR",
+        "PropertyReference": "$o.spec.selector"
+      }
+    ]
+  },
+  {
+    "TypeName": "jobs",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "COMPLETIONS",
+        "PropertyReference": "'{0}/{1}' -f $o.status.succeeded, $o.spec.completions"
+      },
+      {
+        "PropertyName": "DURATION",
+        "PropertyReference": ".{$ct = $o.status.completiontime; $st = $o.status.startTime; $ct ? ($ct - $st) : ([datetime]::now - $st)}"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      },
+      {
+        "PropertyName": "CONTAINERS",
+        "PropertyReference": "$o.spec.template.spec.Containers.name"
+      },
+      {
+        "PropertyName": "IMAGES",
+        "PropertyReference": "$o.spec.template.spec.containers.image"
+      },
+      {
+        "PropertyName": "SELECTOR",
+        "PropertyReference": "$o.spec.selector.matchlabels.psobject.properties.foreach({'{0}={1}' -f $_.name,$_.value})"
+      }
+    ]
+  },
+  {
+    "TypeName": "certificatesigningrequests",
+    "Fields": [
+      {
+      "PropertyName": "NAMESPACE",
+      "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+      "PropertyName": "NAME",
+      "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+      "PropertyName": "AGE",
+      "PropertyReference": "$o.metadata.creationTimeStamp"
+      },
+      {
+      "PropertyName": "SignerName",
+      "PropertyReference": "$o.spec.signerName"
+      },
+      {
+      "PropertyName": "REQUESTOR",
+      "PropertyReference": "$o.spec.request"
+      },
+      {
+      "PropertyName": "Condition",
+      "PropertyReference": "$o.spec.conditions"
+      }
+    ]
+  },
+  {
+    "TypeName": "stacks",
+    "Fields": [
+      {
+      "PropertyName": "NAMESPACE",
+      "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+      "PropertyName": "NAME",
+      "PropertyReference": "$o.metadata.NAMESPACE"
+      }
+    ]
+  },
+  {
+    "TypeName": "leases",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "HOLDER",
+        "PropertyReference": "$o.spec.holderIdentity"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "ingresses",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "CLASS",
+        "PropertyReference": "$o.spec.IngressClassName"
+      },
+      {
+        "PropertyName": "HOSTS",
+        "PropertyReference": "$o.spec.rules.host ? $o.spec.rules.host : '*'"
+      },
+      {
+        "PropertyName": "ADDRESS",
+        "PropertyReference": "$o.status.loadbalancer"
+      },
+      {
+        "PropertyName": "PORTS",
+        "PropertyReference": "$o.spec.tls ? 80,443 : 80"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "networkpolicies",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "PODSELECTOR",
+        "PropertyReference": "$o.spec.podSelector.matchlabels.psobject.properties.foreach({'{0}={1}' -f $_.name,$_.value})"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimestamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "podsecuritypolicies",
+    "Fields": [
+      { "PropertyName": "NAMESPACE",      "PropertyReference": "$o.metadata.NAMESPACE" },
+      { "PropertyName": "NAME",           "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "PRIV",           "PropertyReference": ".{$p = $o.spec.privileged;$r = $null; $p ? ([bool]::tryparse($p,[ref]$r) ? $r : $false) : $false}" },
+      { "PropertyName": "CAPS",           "PropertyReference": "$o.spec.allowedCapabilities.rule" },
+      { "PropertyName": "SELINIX",        "PropertyReference": "$o.spec.seLinux.rule" },
+      { "PropertyName": "RUNASUSER",      "PropertyReference": "$o.spec.runAsUser.rule" },
+      { "PropertyName": "FSGROUP",        "PropertyReference": "$o.spec.fsGroup" },
+      { "PropertyName": "SUPGROUP",       "PropertyReference": "$o.spec.supplementalGroups" },
+      { "PropertyName": "READONLYROOTFS", "PropertyReference": "$o.spec.readOnlyRootFilesystem" },
+      { "PropertyName": "VOLUMES",        "PropertyReference": "$o.spec.volumes" }
+    ]
+  },
+  {
+    "TypeName": "runtimeclasses",
+    "Fields": [
+      { "PropertyName": "NAME",           "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "HANDLER",       "PropertyReference": "$o.handler" },
+      { "PropertyName": "AGE",           "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "poddisruptionbudgets",
+    "Fields": [
+      { "PropertyName": "NAME",               "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "MINAVAILABLE",       "PropertyReference": "$o.spec.MinAvailable ? $o.spec.MinAvailable : 0" },
+      { "PropertyName": "MAXAVAILABLE",       "PropertyReference": "$o.spec.MaxAvailable ? $o.spec.MaxAvailable : 0" },
+      { "PropertyName": "ALLOWED DISRUPTION", "PropertyReference": "$o.status.DisruptionsAllowed" },
+      { "PropertyName": "AGE",                "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "clusterrolebindings",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference": "$o.metadata.creationTimeStamp"
+      },
+      {
+        "PropertyName": "ROLE",
+        "PropertyReference": "'{0}/{1}' -f $o.roleRef.kind,$o.roleref.name"
+      },
+      {
+        "PropertyName": "USERS",
+        "PropertyReference": "$o.subjects.where({$_.kind -eq 'user'}).Name"
+      },
+      {
+        "PropertyName": "GROUPS",
+        "PropertyReference": "$o.subjects.where({$_.kind -eq 'group'}).Name"
+      },
+      {
+        "PropertyName": "SERVICEACCOUNTS",
+        "PropertyReference": "$o.subjects.where({$_.kind -eq 'ServiceAccount'}).foreach({'{0}/{1}' -f $_.namespace,$_.name})"
+      }
+    ]
+  },
+  {
+    "TypeName": "clusterroles",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference":"$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "rolebindings",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference":"$o.metadata.creationTimeStamp"
+      },
+      {
+        "PropertyName": "ROLE",
+        "PropertyReference": "'{0}/{1}' -f $o.rolefef.kind,$o.roleref.name"
+      },
+      {
+        "PropertyName": "USERS",
+        "PropertyReference": "$o.subjects.where({$_.kind -eq 'user'}).Name"
+      },
+      {
+        "PropertyName": "GROUPS",
+        "PropertyReference": "$o.subjects.where({$_.kind -eq 'group'}).Name"
+      },
+      {
+        "PropertyName": "SERVICEACCOUNTS",
+        "PropertyReference": "$o.subjects.where({$_.kind -eq 'ServiceAccount'}).foreach({'{0}/{1}' -f $_.namespace,$_.name})"
+      }
+    ]
+  },
+  {
+    "TypeName": "roles",
+    "Fields": [
+      {
+        "PropertyName": "NAMESPACE",
+        "PropertyReference": "$o.metadata.NAMESPACE"
+      },
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference":"$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "priorityclasses",
+    "Fields": [
+      {
+        "PropertyName": "NAME",
+        "PropertyReference": "$o.metadata.NAME"
+      },
+      {
+        "PropertyName": "VALUE",
+        "PropertyReference": "$o.value"
+      },
+      {
+        "PropertyName": "GLOBALDEFAULT",
+        "PropertyReference": "$o.globalDefault"
+      },
+      {
+        "PropertyName": "AGE",
+        "PropertyReference":"$o.metadata.creationTimeStamp"
+      }
+    ]
+  },
+  {
+    "TypeName": "csidrivers",
+    "Fields": [
+      { "PropertyName": "NAME",            "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "AttachRequired",  "PropertyReference": "$o.spec.AttachRequired" },
+      { "PropertyName": "PodInfoOnMount",  "PropertyReference": "$o.spec.podInfoOnMount" },
+      { "PropertyName": "Modes",           "PropertyReference": "$o.spec.volumeLifecyleModes" },
+      { "PropertyName": "AGE",             "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "csinodes",
+    "Fields": [
+      { "PropertyName": "NAME",               "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "DRIVERS",       "PropertyReference": "$o.spec.drivers.count" },
+      { "PropertyName": "AGE",                "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  },
+  {
+    "TypeName": "storageclasses",
+    "Fields": [
+      { "PropertyName": "NAME", "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "PROVISIONER", "PropertyReference": "$o.provisioner" },
+      { "PropertyName": "ReclaimPolicy", "PropertyReference": "$o.reclaimpolicy" },
+      { "PropertyName": "VolumeBindingMode", "PropertyReference": "$o.volumebindingmode" },
+      { "PropertyName": "AllowVolumeExpansion", "PropertyReference": "$o.allowvolumeexpansion ? $o.allowvolumeexpansion : $false" },
+      { "PropertyName": "AGE", "PropertyReference":"$o.metadata.creationTimeStamp" }
+    ]
+  },
+  {
+    "TypeName": "volumeattachments",
+    "Fields": [
+      { "PropertyName": "NAME", "PropertyReference": "$o.metadata.NAME" },
+      { "PropertyName": "ATTACHER", "PropertyReference": "$o.spec.attacher" },
+      { "PropertyName": "PV", "PropertyReference": "$o.source.persistentvolumename" },
+      { "PropertyName": "Node", "PropertyReference": "$o.spec.nodeName" },
+      { "PropertyName": "ATTACHED", "PropertyReference": "$o.status.attached" },
+      { "PropertyName": "AGE",                "PropertyReference": "$o.metadata.creationTimestamp" }
+    ]
+  }
+]
