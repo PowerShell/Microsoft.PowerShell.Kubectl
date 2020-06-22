@@ -15,7 +15,7 @@ RootModule = 'Microsoft.PowerShell.KubeCtl.psm1'
 ModuleVersion = '0.0.3'
 
 # Supported PSEditions
-# CompatiblePSEditions = @()
+CompatiblePSEditions = @('Core')
 
 # ID used to uniquely identify this module
 GUID = 'c7793210-3490-4a99-8e3f-ca92dcf3f762'
@@ -110,7 +110,7 @@ PrivateData = @{
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/PowerShell/Microsoft.PowerShell.KubeCtl'
 
         # A URL to an icon representing this module.
         # IconUri = ''
